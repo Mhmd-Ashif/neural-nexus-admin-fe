@@ -1,0 +1,174 @@
+/* Use a Google Font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+/* Apply font styling to the entire app */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container styling */
+.containerr {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px;
+  min-height: 100vh;
+}
+
+/* Content styling */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Image section styling */
+.image-section {
+  margin-top: 20px;
+}
+
+.image-section img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Form section styling */
+.form-section {
+  width: 100%;
+  max-width: 500px;
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* Form elements */
+form h2 {
+  margin-bottom: 25px;
+  font-weight: 600;
+  color: #333;
+}
+
+form label {
+  display: block;
+  text-align: left;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="number"],
+form select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Radio section styling */
+.radio-section {
+  margin-top: 20px;
+}
+
+.radio-section p {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+/* Flex layout for radio buttons */
+.radio-options {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.radio-options label {
+  margin-right: 10px;
+}
+
+/* Note section styling */
+.note {
+  background-color: #f7f7f7;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Button styling */
+.submit-button {
+  font-family: "Poppins", sans-serif;
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .image-section {
+    display: none;
+  }
+}
+
+@media (min-width: 600px) {
+  .content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .image-section {
+    width: 40%;
+    /* margin-right: 50px; */
+  }
+
+  .form-section {
+    width: 55%;
+    /* margin-left: 50px; */
+  }
+}
+
+.loaderr {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #007bff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
