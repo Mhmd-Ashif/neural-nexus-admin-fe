@@ -40,21 +40,20 @@ function Login() {
       const response = await axios.post(
         `${
           location.pathname.includes("register")
-            ? "http://localhost:3000/api/admin/register"
-            : "http://localhost:3000/api/admin/login"
+            ? "https://neural-nexus-backend.onrender.com/api/admin/register"
+            : "https://neural-nexus-backend.onrender.com/api/admin/login"
         }`,
         {
           mobileNumber: formData.id,
           password: formData.password,
         }
       );
-      console.log(response.data.message);
 
       setLoading(false);
-      {
-        response.data.message == "created"
-          ? navigate("/")
-          : localStorage.setItem("token", response.data.admin.password);
+      if (response.data.message === "created") {
+        navigate("/");
+      } else {
+        localStorage.setItem("token", response.data.admin.password);
         navigate("/dashboard");
       }
     } catch (error) {
@@ -80,6 +79,8 @@ function Login() {
               <input
                 type="text"
                 name="id"
+                maxLength={10}
+                minLength={10}
                 value={formData.id}
                 onChange={handleInputChange}
                 placeholder="Enter Admin Id"
