@@ -12,6 +12,8 @@ import {
 import { FaTrash, FaCheck } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import * as XLSX from "xlsx";
+import "./Dashboard.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -20,6 +22,8 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [loadingId, setLoadingId] = useState(null);
   const [error, setError] = useState(null);
+  const [dept, setDept] = useState("");
+  const [status, setStatus] = useState("");
 
   const capitalizeName = (name) => {
     return name
@@ -86,9 +90,59 @@ const Dashboard = () => {
       });
   };
 
-  const filteredData = data.filter((item) =>
-    item.dno.toLowerCase().includes(search.toLowerCase())
+  const filteredData = data.filter(
+    (item) =>
+      item.dno.toLowerCase().includes(search.toLowerCase()) &&
+      (dept === "" || item.department === dept) &&
+      (status === "" || item.paymentStatus === status)
   );
+
+  const handleDeptChange = (e) => {
+    console.log(e.target.value);
+    setDept(e.target.value);
+  };
+
+  const handlePaidChange = (e) => {
+    console.log(typeof e.target.value);
+    if (e.target.value === "true") {
+      setStatus(true);
+    } else if (e.target.value === "false") {
+      setStatus(false);
+    } else {
+      setStatus(e.target.value);
+    }
+  };
+
+  // Function to download filtered data as Excel file
+  const downloadExcel = () => {
+    try {
+      const filteredStudents = filteredData.map((item, index) => ({
+        "S.No": index + 1,
+        Name: capitalizeName(item.name),
+        "D.No": item.dno,
+        Department: item.department.toUpperCase(),
+        Year: item.year,
+        "Payment Status": item.paymentStatus ? "Paid" : "Pending",
+      }));
+
+      // Create worksheet and workbook
+      const worksheet = XLSX.utils.json_to_sheet(filteredStudents);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Students");
+
+      // Save Excel file with the current date
+      XLSX.writeFile(
+        workbook,
+        `students_${new Date().toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })}.xlsx`
+      );
+    } catch (error) {
+      setError("Error downloading Excel file. Please try again later.");
+    }
+  };
 
   return (
     <div>
@@ -130,16 +184,55 @@ const Dashboard = () => {
 
         {!loading && (
           <Row className="mb-3">
-            <Col md={{ span: 4, offset: 8 }}>
+            <Col className="filterOptions">
+              <Form.Group controlId="dept" className="button">
+                <Form.Select
+                  name="dept"
+                  className="select-dept"
+                  value={dept}
+                  onChange={handleDeptChange}
+                >
+                  <option value="">Filter by Department</option>
+                  <option value="cse">Computer Science and Engineering</option>
+                  <option value="it">Information Technology</option>
+                  <option value="mech">Mechanical Engineering</option>
+                  <option value="aero">Aeronautical Engineering</option>
+                  <option value="ece">
+                    Electrical and Communication Engineering
+                  </option>
+                  <option value="eee">
+                    Electrical and Electronics Engineering
+                  </option>
+                  <option value="civil">Civil Engineering</option>
+                </Form.Select>
+              </Form.Group>
+              <Form.Group controlId="status" className="button">
+                <Form.Select
+                  name="status"
+                  className="select-status"
+                  value={status}
+                  onChange={handlePaidChange}
+                >
+                  <option value="">Filter by Payment Status</option>
+                  <option value="true">paid</option>
+                  <option value="false">Pending</option>
+                </Form.Select>
+              </Form.Group>
               <Form.Control
                 type="text"
                 placeholder="Search by DNO"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
+                className="button"
               />
             </Col>
           </Row>
         )}
+
+        <h4 className="text-center">Total Participants : {data.length}</h4>
+        <Button variant="primary" onClick={downloadExcel} className="excel">
+          Download Excel
+        </Button>
 
         {!loading && (
           <div style={{ overflowX: "auto" }}>

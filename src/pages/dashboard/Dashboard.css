@@ -1,0 +1,23 @@
+.filterOptions {
+  display: flex;
+  justify-content: stretch;
+  column-gap: 20px;
+  flex-wrap: wrap;
+}
+.button {
+  flex: 1;
+}
+
+.excel {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 550px) {
+  .filterOptions {
+    flex-direction: column;
+    row-gap: 20px;
+  }
+}
